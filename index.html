@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stok Gudang Divisi PP</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Stok Gudang Divisi PP</h1>
+    <div class="auth-controls">
+      <input type="text" id="userNameInput" placeholder="Masukkan nama Anda..." />
+      <button id="saveUserNameBtn">Simpan Nama</button>
+      <span id="currentUserDisplay"></span>
+      <button id="darkModeToggle" title="Toggle Dark Mode">🌙</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="left-col">
+      <section id="adminSection" class="card">
+        <div class="card-header">
+          <h2>Tambah/Edit Produk</h2>
+        </div>
+        <form id="productForm" class="form-grid">
+          <input type="hidden" id="productId" />
+          <input type="text" id="productName" placeholder="Nama Produk" required />
+          <input type="number" id="productQty" placeholder="Jumlah" required />
+          <div class="row">
+            <select id="productCategory" required>
+              <option value="" disabled selected>Pilih Kategori</option>
+            </select>
+            <input type="text" id="newCategoryName" placeholder="Tambah kategori baru (opsional)"/>
+            <button type="button" id="addCategoryBtn" class="secondary">+ Kategori</button>
+          </div>
+          <button type="submit">Simpan Produk</button>
+          <button type="button" id="clearFormBtn" class="secondary">Batal Edit</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Daftar Produk</h2>
+        </div>
+        <div class="filters">
+          <input type="text" id="searchInput" placeholder="Cari produk... (nama)"/>
+          <select id="filterCategory">
+            <option value="">Semua Kategori</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Jumlah</th>
+                <th>Kategori</th>
+                <th>Dibuat oleh</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="productList"></tbody>
+          </table>
+        </div>
+        <div class="actions-row">
+          <button id="exportCSV">Export CSV</button>
+          <button id="exportExcel">Export Excel</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Riwayat</h2>
+        </div>
+        <div class="filters history-filters">
+          <select id="historyQuickRange">
+            <option value="7">7 hari terakhir</option>
+            <option value="30">30 hari terakhir</option>
+            <option value="custom">Rentang tanggal…</option>
+          </select>
+          <input type="date" id="historyStart" disabled />
+          <input type="date" id="historyEnd" disabled />
+          <button id="applyHistoryFilter" class="secondary">Terapkan</button>
+          <input type="text" id="historySearch" placeholder="Cari di riwayat..."/>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>Aksi</th>
+                <th>Nama Produk</th>
+                <th>Perubahan</th>
+                <th>Oleh</th>
+              </tr>
+            </thead>
+            <tbody id="historyList"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section class="right-col">
+      <section class="card">
+        <div class="card-header">
+          <h2>Grafik Stok per Kategori</h2>
+        </div>
+        <canvas id="stockChart" height="260"></canvas>
+        <small class="muted">Grafik mengikuti hasil filter & pencarian produk saat ini.</small>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>📦 Stok Gudang Divisi PP — Firebase & Chart.js (Realtime)</p>
+  </footer>
+
+  <script src="firebase-config.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
